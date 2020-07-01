@@ -1,8 +1,8 @@
 
 ![Images v/s Notes](/images/img1.png)
 
-**Problem Statement**
-*This below sight(of Pictures of note book images(may be of class notes,question papers,assignment sheets,..) mixed with general images) is very common in the mobile phone gallery of college-going students. And after the semester gets completed, they no longer need these images and they prefer to delete them. But finding and deleting them individually among many other photos isn't easy.* ***This project answers attempts to solve this problem with the help of Deep Learning.*** . 
+**Problem Statement**\
+*The below sight(of Pictures of note book images(may be of class notes,question papers,assignment sheets,..) mixed with general images) is very common in the mobile phone gallery of college-going students. And after the semester gets completed, they no longer need these images and they prefer to delete them. But finding and deleting them individually among many other photos isn't easy.* ***This project attempts to solve this problem with the help of Deep Learning.*** . 
 
 ![Problem Statement](/images/img2.jpg)
 
