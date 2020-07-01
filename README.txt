@@ -1,3 +1,7 @@
+
+![Images v/s Notes](/images/img1.png
+
+
 This project is helpful in classifying a given image as picture of notes or some other image. So it is a binary image classification problem.
 Various classifiers are used to solve this problem - Standard shallow neural networks, Standard deep neural networks, Convolutional Neural Networks, pretrained neural networks(AlexNet and Resnet).
 The performance of these models on test data is in TestResults.txt (AlexNet=Resnet>ConvNet>ShallowNet>DeepNet). Ofcourse Alexnet takes just 5 epochs to achieve this performance while resnet needed 50 epochs.
