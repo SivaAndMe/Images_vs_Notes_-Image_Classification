@@ -1,0 +1,395 @@
+"""
+ToDo:
+      Get valData
+Observations:
+        With 100*100 images and normalizing images are changed drastically to a bad shape(for a human eye )  especially notes
+        and with 224*224 they're looking very fine !So you'll have better freatures here
+        But with 224 , your RAM gets over(in colab) and runtime crashes. So go with 100*100 only
+
+Results:
+      lr=0.01 epochs=5 layers:2 (100*100*3,50*50*3)
+
+        Epoch 1/5 Avgloss: 5.130711555480957 Accuracy:0.4350000023841858
+        Epoch 2/5 Avgloss: 4.852030277252197 Accuracy:0.5
+        Epoch 3/5 Avgloss: 4.852030277252197 Accuracy:0.5
+        Epoch 4/5 Avgloss: 4.852030277252197 Accuracy:0.5
+        Epoch 5/5 Avgloss: 4.852030277252197 Accuracy:0.5
+        => clearly underfitting
+        => can increase no.of layers,decrease lr
+
+      lr=0.0075 epochs=5 layers:2 (100*100*3,50*50*3)
+
+        Almost same results as above
+
+      ShallowNet : lr=0.0001 epochs=20 layers:2 (100*100*3,50*50*3)
+        Epoch 1/20
+            Training: Avgloss: 11.374791145324707 Accuracy:0.7976190447807312
+            Validation: Correct:27  Accuracy : 0.84375
+            Epoch 2/20
+            Training: Avgloss: 3.6200082302093506 Accuracy:0.9345238208770752
+            Validation: Correct:27  Accuracy : 0.84375
+            Epoch 3/20
+            Training: Avgloss: 1.1791669130325317 Accuracy:0.9523809552192688
+            Validation: Correct:27  Accuracy : 0.84375
+            Epoch 4/20
+            Training: Avgloss: 0.3529849946498871 Accuracy:0.9702380895614624
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 5/20
+            Training: Avgloss: 0.16489079594612122 Accuracy:0.988095223903656
+            Validation: Correct:29  Accuracy : 0.90625
+            Epoch 6/20
+            Training: Avgloss: 0.12857763469219208 Accuracy:0.9940476417541504
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 7/20
+            Training: Avgloss: 0.07137288898229599 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 8/20
+            Training: Avgloss: 0.02852582186460495 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 9/20
+            Training: Avgloss: 0.024069441482424736 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 10/20
+            Training: Avgloss: 0.017954247072339058 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 11/20
+            Training: Avgloss: 0.012747322209179401 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 12/20
+            Training: Avgloss: 0.010844655334949493 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 13/20
+            Training: Avgloss: 0.009373050183057785 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 14/20
+            Training: Avgloss: 0.008039386011660099 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 15/20
+            Training: Avgloss: 0.007250925526022911 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 16/20
+            Training: Avgloss: 0.006713022477924824 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 17/20
+            Training: Avgloss: 0.006234149914234877 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 18/20
+            Training: Avgloss: 0.005811368115246296 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 19/20
+            Training: Avgloss: 0.0054553598165512085 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+            Epoch 20/20
+            Training: Avgloss: 0.005142918322235346 Accuracy:1.0
+            Validation: Correct:28  Accuracy : 0.875
+
+        DeepNet:
+        A proof that  deep models MAY hurt performance :20,lr=0.0001, layers=3(relu,100,50,25,1)
+        Epoch 1/20
+          Training: Avgloss: 4.08050537109375 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 2/20
+          Training: Avgloss: 4.0880913734436035 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 3/20
+          Training: Avgloss: 4.229624271392822 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 4/20
+          Training: Avgloss: 4.141731262207031 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 5/20
+          Training: Avgloss: 4.190401554107666 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 6/20
+          Training: Avgloss: 4.1968994140625 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 7/20
+          Training: Avgloss: 4.201701641082764 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 8/20
+          Training: Avgloss: 4.148431301116943 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 9/20
+          Training: Avgloss: 4.099283218383789 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 10/20
+          Training: Avgloss: 4.163280963897705 Accuracy:0.4761904776096344
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 11/20
+          Training: Avgloss: 4.206387519836426 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 12/20
+          Training: Avgloss: 4.093035697937012 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 13/20
+          Training: Avgloss: 4.130987644195557 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 14/20
+          Training: Avgloss: 4.1684794425964355 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 15/20
+          Training: Avgloss: 4.1525726318359375 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 16/20
+          Training: Avgloss: 4.136951923370361 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 17/20
+          Training: Avgloss: 4.146231174468994 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 18/20
+          Training: Avgloss: 4.1769609451293945 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 19/20
+          Training: Avgloss: 4.220577239990234 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+          Epoch 20/20
+          Training: Avgloss: 4.120367050170898 Accuracy:0.4821428656578064
+          Validation: Correct:19  Accuracy : 0.59375
+
+          CONVNET  WITH DROPOUT
+          Train Loss is increasing over time - # 2 blocks + 1fc - ep:10,lr 0.0001,adam - 71%
+        Epoch 1/10
+        Training: Avgloss: 3.8175768852233887 Accuracy:0.5476190447807312
+        Validation: Correct:16  Accuracy : 0.5
+        Epoch 2/10
+        Training: Avgloss: 3.464677333831787 Accuracy:0.5535714030265808
+        Validation: Correct:23  Accuracy : 0.71875
+        Epoch 3/10
+        Training: Avgloss: 3.41546893119812 Accuracy:0.6547619104385376
+        Validation: Correct:24  Accuracy : 0.75
+        Epoch 4/10
+        Training: Avgloss: 3.1146252155303955 Accuracy:0.6904761791229248
+        Validation: Correct:23  Accuracy : 0.71875
+        Epoch 5/10
+        Training: Avgloss: 3.248504161834717 Accuracy:0.738095223903656
+        Validation: Correct:23  Accuracy : 0.71875
+        Epoch 6/10
+        Training: Avgloss: 2.762049436569214 Accuracy:0.7440476417541504
+        Validation: Correct:24  Accuracy : 0.75
+        Epoch 7/10
+        Training: Avgloss: 3.1692776679992676 Accuracy:0.6964285969734192
+        Validation: Correct:24  Accuracy : 0.75
+        Epoch 8/10
+        Training: Avgloss: 2.7002739906311035 Accuracy:0.7023809552192688
+        Validation: Correct:23  Accuracy : 0.71875
+        Epoch 9/10
+        Training: Avgloss: 2.797269821166992 Accuracy:0.7440476417541504
+        Validation: Correct:23  Accuracy : 0.71875
+        Epoch 10/10
+        Training: Avgloss: 2.8621106147766113 Accuracy:0.7023809552192688
+        Validation: Correct:23  Accuracy : 0.71875
+      Same as above with lr = 0.000075, learns very slowly.
+      Same as above with SGD makes things even worser 0.53125 accuracy &random changing of accu again . But why such Big cjhnages ?
+
+      CONVNET W/O DROPOUT
+          A PEFECT FALL OF LOSS & BETTER ACCURACY HERE WITH CONVENETS W/O DROPOUT
+
+            Epoch 1/10
+          Training: Avgloss: 3.930025577545166 Accuracy:0.494047611951828
+          Validation: Correct:17  Accuracy : 0.53125
+          Epoch 2/10
+          Training: Avgloss: 3.3155434131622314 Accuracy:0.494047611951828
+          Validation: Correct:18  Accuracy : 0.5625
+          Epoch 3/10
+          Training: Avgloss: 2.752586603164673 Accuracy:0.6309523582458496
+          Validation: Correct:24  Accuracy : 0.75
+          Epoch 4/10
+          Training: Avgloss: 2.2235820293426514 Accuracy:0.851190447807312
+          Validation: Correct:24  Accuracy : 0.75
+          Epoch 5/10
+          Training: Avgloss: 1.7547645568847656 Accuracy:0.9107142686843872
+          Validation: Correct:31  Accuracy : 0.96875
+          Epoch 6/10
+          Training: Avgloss: 1.379293441772461 Accuracy:0.988095223903656
+          Validation: Correct:31  Accuracy : 0.96875
+          Epoch 7/10
+          Training: Avgloss: 1.0959571599960327 Accuracy:0.988095223903656
+          Validation: Correct:31  Accuracy : 0.96875
+          Epoch 8/10
+          Training: Avgloss: 0.8938823938369751 Accuracy:0.9940476417541504
+          Validation: Correct:31  Accuracy : 0.96875
+          Epoch 9/10
+          Training: Avgloss: 0.7513279914855957 Accuracy:0.9940476417541504
+          Validation: Correct:31  Accuracy : 0.96875
+          Epoch 10/10
+          Training: Avgloss: 0.6468279361724854 Accuracy:0.9940476417541504
+          Validation: Correct:31  Accuracy : 0.96875
+        => An advice to start Lr from 0.0005 and increase 10-fold every time
+        => A problem of non-decreasing loss(a constant one ) after some iterations
+
+    TRANFER LEARNING
+     RESNET  18 50-EPOCHS LR = 0.0001 , Adam,
+
+                  Epoch 1/50
+              Training: Avgloss: 4.44313383102417 Accuracy:0.5595238208770752
+              Validation: Correct:17  Accuracy : 0.53125
+              Epoch 2/50
+              Training: Avgloss: 4.2060346603393555 Accuracy:0.5654761791229248
+              Validation: Correct:20  Accuracy : 0.625
+              Epoch 3/50
+              Training: Avgloss: 4.0181403160095215 Accuracy:0.5714285969734192
+              Validation: Correct:20  Accuracy : 0.625
+              Epoch 4/50
+              Training: Avgloss: 3.8626246452331543 Accuracy:0.5357142686843872
+              Validation: Correct:22  Accuracy : 0.6875
+              Epoch 5/50
+              Training: Avgloss: 3.7281558513641357 Accuracy:0.5357142686843872
+              Validation: Correct:22  Accuracy : 0.6875
+              Epoch 6/50
+              Training: Avgloss: 3.6063435077667236 Accuracy:0.5416666865348816
+              Validation: Correct:22  Accuracy : 0.6875
+              Epoch 7/50
+              Training: Avgloss: 3.4922640323638916 Accuracy:0.5714285969734192
+              Validation: Correct:22  Accuracy : 0.6875
+              Epoch 8/50
+              Training: Avgloss: 3.383692741394043 Accuracy:0.5952380895614624
+              Validation: Correct:23  Accuracy : 0.71875
+              Epoch 9/50
+              Training: Avgloss: 3.279881238937378 Accuracy:0.6190476417541504
+              Validation: Correct:23  Accuracy : 0.71875
+              Epoch 10/50
+              Training: Avgloss: 3.180602788925171 Accuracy:0.6428571343421936
+              Validation: Correct:24  Accuracy : 0.75
+              Epoch 11/50
+              Training: Avgloss: 3.0856821537017822 Accuracy:0.6785714030265808
+              Validation: Correct:25  Accuracy : 0.78125
+              Epoch 12/50
+              Training: Avgloss: 2.994877815246582 Accuracy:0.7202380895614624
+              Validation: Correct:27  Accuracy : 0.84375
+              Epoch 13/50
+              Training: Avgloss: 2.9079198837280273 Accuracy:0.7440476417541504
+              Validation: Correct:29  Accuracy : 0.90625
+              Epoch 14/50
+              Training: Avgloss: 2.824561595916748 Accuracy:0.773809552192688
+              Validation: Correct:30  Accuracy : 0.9375
+              Epoch 15/50
+              Training: Avgloss: 2.7446014881134033 Accuracy:0.8035714030265808
+              Validation: Correct:30  Accuracy : 0.9375
+              Epoch 16/50
+              Training: Avgloss: 2.667877197265625 Accuracy:0.8035714030265808
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 17/50
+              Training: Avgloss: 2.594252586364746 Accuracy:0.8273809552192688
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 18/50
+              Training: Avgloss: 2.5236029624938965 Accuracy:0.8333333134651184
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 19/50
+              Training: Avgloss: 2.4558072090148926 Accuracy:0.851190447807312
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 20/50
+              Training: Avgloss: 2.390746593475342 Accuracy:0.8809523582458496
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 21/50
+              Training: Avgloss: 2.3283019065856934 Accuracy:0.8928571343421936
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 22/50
+              Training: Avgloss: 2.2683568000793457 Accuracy:0.898809552192688
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 23/50
+              Training: Avgloss: 2.2107958793640137 Accuracy:0.898809552192688
+              Validation: Correct:31  Accuracy : 0.96875
+              Epoch 24/50
+              Training: Avgloss: 2.155507802963257 Accuracy:0.9226190447807312
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 25/50
+              Training: Avgloss: 2.102384567260742 Accuracy:0.9226190447807312
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 26/50
+              Training: Avgloss: 2.051323175430298 Accuracy:0.9345238208770752
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 27/50
+              Training: Avgloss: 2.002225160598755 Accuracy:0.9345238208770752
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 28/50
+              Training: Avgloss: 1.954996943473816 Accuracy:0.9464285969734192
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 29/50
+              Training: Avgloss: 1.9095501899719238 Accuracy:0.9464285969734192
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 30/50
+              Training: Avgloss: 1.8658004999160767 Accuracy:0.9464285969734192
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 31/50
+              Training: Avgloss: 1.823668360710144 Accuracy:0.9464285969734192
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 32/50
+              Training: Avgloss: 1.7830777168273926 Accuracy:0.9464285969734192
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 33/50
+              Training: Avgloss: 1.7439571619033813 Accuracy:0.9583333134651184
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 34/50
+              Training: Avgloss: 1.7062379121780396 Accuracy:0.9583333134651184
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 35/50
+              Training: Avgloss: 1.6698558330535889 Accuracy:0.9583333134651184
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 36/50
+              Training: Avgloss: 1.6347495317459106 Accuracy:0.9583333134651184
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 37/50
+              Training: Avgloss: 1.6008604764938354 Accuracy:0.9642857313156128
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 38/50
+              Training: Avgloss: 1.5681337118148804 Accuracy:0.9642857313156128
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 39/50
+              Training: Avgloss: 1.5365169048309326 Accuracy:0.9642857313156128
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 40/50
+              Training: Avgloss: 1.5059603452682495 Accuracy:0.9642857313156128
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 41/50
+              Training: Avgloss: 1.4764165878295898 Accuracy:0.9642857313156128
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 42/50
+              Training: Avgloss: 1.4478411674499512 Accuracy:0.9642857313156128
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 43/50
+              Training: Avgloss: 1.4201921224594116 Accuracy:0.9702380895614624
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 44/50
+              Training: Avgloss: 1.3934285640716553 Accuracy:0.9821428656578064
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 45/50
+              Training: Avgloss: 1.3675129413604736 Accuracy:0.9821428656578064
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 46/50
+              Training: Avgloss: 1.3424087762832642 Accuracy:0.9821428656578064
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 47/50
+              Training: Avgloss: 1.3180817365646362 Accuracy:0.9821428656578064
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 48/50
+              Training: Avgloss: 1.2944992780685425 Accuracy:0.9821428656578064
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 49/50
+              Training: Avgloss: 1.2716304063796997 Accuracy:0.9821428656578064
+              Validation: Correct:32  Accuracy : 1.0
+              Epoch 50/50
+              Training: Avgloss: 1.249445915222168 Accuracy:0.988095223903656
+              Validation: Correct:32  Accuracy : 1.0
+
+
+
+
+    ALEXnET  lr=0.0001 ,Adam, epochs=5
+    REALLY AMAZES with a perfect accuracy in just 5 epochs
+          Epoch 1/50
+      Training: Avgloss: 2.7789008617401123 Accuracy:0.898809552192688
+      Validation: Correct:28  Accuracy : 0.875
+      Epoch 2/50
+      Training: Avgloss: 2.0960452556610107 Accuracy:0.9464285969734192
+      Validation: Correct:30  Accuracy : 0.9375
+      Epoch 3/50
+      Training: Avgloss: 1.5985116958618164 Accuracy:0.976190447807312
+      Validation: Correct:32  Accuracy : 1.0
+      Epoch 4/50
+      Training: Avgloss: 1.1996314525604248 Accuracy:0.988095223903656
+      Validation: Correct:32  Accuracy : 1.0
+      Epoch 5/50
+      Training: Avgloss: 0.9906936883926392 Accuracy:1.0
+      Validation: Correct:32  Accuracy : 1.0
+
+"""

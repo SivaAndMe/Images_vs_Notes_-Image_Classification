@@ -1,0 +1,13 @@
+
+
+Test-data Results (138 samples)
+
+Testing: Correct:137  Accuracy : 0.9927536249160767 with AlexNet
+
+Testing: Correct:137  Accuracy : 0.9927536249160767 with Resnet
+
+Testing: Correct:135  Accuracy : 0.97826087474823 with ConvNet
+
+Testing: Correct:127  Accuracy : 0.9202898740768433 with ShallowNet
+
+Testing: Correct:98  Accuracy : 0.7101449370384216 with DeepNet
